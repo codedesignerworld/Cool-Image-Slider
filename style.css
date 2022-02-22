@@ -1,0 +1,137 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.grid {
+  display: grid;
+}
+
+body {
+  min-height: 100vh;
+  background: #f2f3f9;
+}
+
+main {
+  place-self: center;
+  overflow: hidden;
+  max-width: 56.25em;
+  box-shadow: -16px 16px 23px currentcolor;
+  background: #fff;
+  color: #b9b7bb;
+  font: 1em/1.25 ubuntu, trebuchet ms, sans-serif;
+}
+
+article {
+  --not-sel: min(1, max(var(--k) - var(--i), var(--i) - var(--k)));
+  --sel: calc(1 - var(--not-sel));
+  --sgn-sel: calc(2*var(--sel) - 1);
+  --pad: min(1.5em, 5vw);
+  grid-area: 1/1;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24em), 1fr));
+  z-index: var(--sel);
+  padding: var(--pad);
+  transition: z-index 0s 1s;
+}
+
+a {
+  font-size: 0.875em;
+  text-decoration: none;
+  color: #000;
+}
+a:focus {
+  outline: none;
+}
+a:hover, a:focus {
+  color: mediumvioletred;
+}
+
+.c--ini {
+  grid-column: 1;
+}
+
+.c--fin {
+  grid-column-end: -1;
+}
+
+.fade {
+  transform: translatey(calc(var(--not-sel)*2rem));
+  opacity: var(--sel);
+  transition: transform 1s ease-out calc(var(--sel)*1s), opacity 1s ease-in calc(var(--sel)*1s);
+}
+
+h3 {
+  font-size: clamp(1.25em, 8vw, 2.5em);
+  font-weight: 900;
+  place-self: end center;
+  padding: 0 0 1em;
+  color: #2c2a2e;
+}
+
+p {
+  padding: 0 5vw;
+  color: #989898;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.nav {
+  place-self: start center;
+  margin: 0.5em 0 2em;
+  border: solid 1px #e0dee0;
+  padding: 1em min(2.5em, 5vw);
+  border-radius: 4em;
+  font-weight: 700;
+  text-align: center;
+}
+
+section {
+  grid-row-end: span 3;
+  clip-path: inset(calc(-1*var(--pad)) 0);
+}
+
+.slice {
+  --p: calc(var(--j)/var(--m));
+  --s: calc((1 + var(--j))/var(--m)*100%);
+  --mask:
+    linear-gradient(90deg,
+      transparent calc(var(--p)*100% - 1px),
+      red calc(var(--p)*100%) var(--s),
+      transparent calc(var(--s) + 1px));
+  grid-area: 1/1;
+  height: 50vmin;
+  transform: translatey(calc(var(--not-sel)*(-100% - var(--pad) - 1px)));
+  background: var(--img) 50%/cover;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  transition: transform 1s ease-out calc((var(--sel) + var(--p))*1s);
+}
+
+.det {
+  grid-auto-flow: column;
+  grid-gap: 0.5em;
+  place-content: end start;
+  place-self: end start;
+  position: relative;
+  z-index: 2;
+  padding: 0 1em;
+  height: 0;
+  line-height: 2;
+  white-space: nowrap;
+}
+.det::before {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  height: 2em;
+  width: 100%;
+  background: #fff;
+  content: "";
+}
+.det::after {
+  content: "➔";
+}
